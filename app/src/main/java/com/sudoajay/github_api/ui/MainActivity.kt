@@ -1,7 +1,8 @@
-package com.sudoajay.github_api
+package com.sudoajay.github_api.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.sudoajay.github_api.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
