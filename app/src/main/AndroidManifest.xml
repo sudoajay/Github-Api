@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.BaseActivity"/>
+        <activity android:name=".ui.SendFeedback"/>
     </application>
 
 </manifest>

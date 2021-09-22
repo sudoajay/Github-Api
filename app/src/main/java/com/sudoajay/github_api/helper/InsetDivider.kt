@@ -9,7 +9,7 @@ import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import com.sudoajay.picsum.R
+import com.sudoajay.github_api.R
 import kotlin.math.roundToInt
 
 open class InsetDivider : ItemDecoration() {

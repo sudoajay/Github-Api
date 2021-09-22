@@ -15,6 +15,9 @@ import javax.inject.Inject
 
 class NavigationDrawerBottomSheet @Inject constructor() : BottomSheetDialogFragment() {
 
+    private val developerLink = "https://github.com/SudoAjay"
+    private val appLink = ""
+    val moreAppLink = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,17 +45,13 @@ class NavigationDrawerBottomSheet @Inject constructor() : BottomSheetDialogFragm
 
     fun moreApp() = callToast()
 
-    fun sendFeedback() = callToast()
-
-    fun shareApk() = callToast()
+    fun sendFeedback() =  startActivity(Intent(requireContext(), SendFeedback::class.java))
 
 
-    fun developerPage() {
-        val page = "https://github.com/SudoAjay"
-        val i = Intent(Intent.ACTION_VIEW)
-        i.data = Uri.parse(page)
-        startActivity(i)
-    }
+    fun shareApk() =openLink(appLink)
+
+
+    fun developerPage() = openLink(developerLink)
 
     fun getVersionName(): String {
         var versionName = "1.0.0"
@@ -63,6 +62,12 @@ class NavigationDrawerBottomSheet @Inject constructor() : BottomSheetDialogFragm
             e.printStackTrace()
         }
         return "%s %s".format(getString(R.string.app_version_text), versionName)
+    }
+
+    private fun openLink(page:String) {
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(page)
+        startActivity(i)
     }
 }
 
