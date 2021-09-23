@@ -42,4 +42,7 @@
     <string name="mobile_data_text">Mobile Data</string>
     <string name="vpn_text">Vpn</string>
     <string name="no_internet_text">No Internet</string>
+
+<!--    Github adapter-->
+    <string name="language">Language: %s</string>
 </resources>

@@ -17,7 +17,8 @@ class NavigationDrawerBottomSheet @Inject constructor() : BottomSheetDialogFragm
 
     private val developerLink = "https://github.com/SudoAjay"
     private val appLink = ""
-    val moreAppLink = ""
+    private val moreAppLink = ""
+    private val rateUsLink = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,13 +38,10 @@ class NavigationDrawerBottomSheet @Inject constructor() : BottomSheetDialogFragm
         return binding.root
     }
 
-    private fun callToast() =
-        Toaster.showToast(requireContext(), getString(R.string.workOnProgress_text))
 
+    fun rateUs() = openLink(rateUsLink)
 
-    fun rateUs() = callToast()
-
-    fun moreApp() = callToast()
+    fun moreApp() = openLink(moreAppLink)
 
     fun sendFeedback() =  startActivity(Intent(requireContext(), SendFeedback::class.java))
 

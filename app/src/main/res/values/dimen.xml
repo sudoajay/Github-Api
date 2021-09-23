@@ -14,4 +14,12 @@
     <dimen name="text_view_margin_gap">12dp</dimen>
     <dimen name="gap_margin_left_right">16dp</dimen>
 
+<!--    Github Adapter-->
+    <dimen name="row_item_margin_vertical">12dp</dimen>
+    <dimen name="row_item_margin_right">8dp</dimen>
+    <dimen name="row_item_margin_horizontal">12dp</dimen>
+    <dimen name="repo_name_size">24sp</dimen>
+    <dimen name="repo_description_size">16sp</dimen>
+
+
 </resources>

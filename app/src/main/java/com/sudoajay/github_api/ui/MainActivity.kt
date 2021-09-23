@@ -1,8 +1,8 @@
 package com.sudoajay.github_api.ui
 
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
@@ -11,26 +11,33 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sudoajay.github_api.R
 import com.sudoajay.github_api.databinding.ActivityMainBinding
 import com.sudoajay.github_api.helper.InsetDivider
 import com.sudoajay.github_api.main.BaseActivity
-import com.sudoajay.github_api.model.MainViewModel
+import com.sudoajay.github_api.repository.GithubAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
+    @Inject
+    lateinit var navigationDrawerBottomSheet: NavigationDrawerBottomSheet
+
+    @Inject
+    lateinit var githubAdapter: GithubAdapter
+
     val viewModel: MainViewModel by viewModels()
     lateinit var binding: ActivityMainBinding
     private var isDarkTheme: Boolean = false
-
-    @Inject
-    lateinit var navigationDrawerBottomSheet : NavigationDrawerBottomSheet
-
+    private var TAG = "MainActivityTAG"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,11 +90,31 @@ class MainActivity : BaseActivity() {
 
 
     }
+
     private fun setRecyclerView() {
         val divider = getInsertDivider()
         binding.recyclerView.addItemDecoration(divider)
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+
+        binding.recyclerView.adapter = githubAdapter
+        dataChange()
+
+        viewModel.searchValue("SudoAjay")
+    }
+
+    private fun dataChange() {
+        Log.e(TAG, "dataChange:  I am here " )
+        lifecycleScope.launch {
+            viewModel.listItem.asFlow().collectLatest {
+                Log.e(TAG, "dataChange:  I am here wuth data  ${it.toString()} " )
+                githubAdapter.submitData(it)
+                viewModel.hideProgress.postValue(true)
+            }
+        }
+    }
+    private fun setValueHideProgress(boolean: Boolean){
+        viewModel.hideProgress.postValue(boolean)
     }
 
     private fun getInsertDivider(): RecyclerView.ItemDecoration {
@@ -124,12 +151,10 @@ class MainActivity : BaseActivity() {
     private fun manageFabOnSearchItemStatus(searchItem: MenuItem) {
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-//                binding.deleteFloatingActionButton.hide()
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-//                binding.deleteFloatingActionButton.show()
                 return true
             }
         })
@@ -137,13 +162,15 @@ class MainActivity : BaseActivity() {
     private fun manageInputTextInSearchView(searchView: SearchView) {
         searchView.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                return false
+            override fun onQueryTextSubmit(newText: String): Boolean {
+                val query: String = newText.lowercase(Locale.ROOT).trim { it <= ' ' }
+                viewModel.searchValue(query)
+
+                return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                val query: String = newText.lowercase(Locale.ROOT).trim { it <= ' ' }
-                viewModel.searchValue = query
+
                 refreshData()
                 return true
             }

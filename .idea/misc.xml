@@ -4,8 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/feedback_background_button.xml" value="0.36875" />
+        <entry key="app/src/main/res/drawable/ic_git_branch.xml" value="0.36875" />
+        <entry key="app/src/main/res/drawable/ic_image_large.xml" value="0.36875" />
+        <entry key="app/src/main/res/drawable/ic_star.xml" value="0.36875" />
+        <entry key="app/src/main/res/drawable/ic_watch.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/activity_send_feedback.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/layout_github_item.xml" value="0.35260416666666666" />
+        <entry key="app/src/main/res/layout/layout_navigation_drawer_bottom_sheet.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/layout/layout_system_info.xml" value="0.35260416666666666" />
         <entry key="app/src/main/res/menu/bottom_toolbar_menu.xml" value="0.35260416666666666" />
       </map>
