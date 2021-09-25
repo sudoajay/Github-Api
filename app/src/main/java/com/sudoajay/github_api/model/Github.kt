@@ -2,16 +2,20 @@ package com.sudoajay.github_api.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@JsonClass(generateAdapter = true)
 data class Github(
-    @SerializedName("id") val id: Long,
-    @SerializedName("name") val name: String,
-    @SerializedName("full_name") val fullName: String,
-    @SerializedName("description") val description: String?,
-    @SerializedName("html_url") val url: String,
-    @SerializedName("stargazers_count") val stars: Int,
-    @SerializedName("forks_count") val forks: Int,
-    @SerializedName("language") val language: String?
+    @Json(name = "id") val id: Long,
+    @Json(name = "name") val name: String,
+    @Json(name = "full_name") val fullName: String,
+    @Json(name = "description") val description: String?,
+    @Json(name = "html_url") val url: String,
+    @Json(name = "watchers_count") val watcher:Long,
+    @Json(name = "stargazers_count") val stars: Long,
+    @Json(name = "forks_count") val forks: Long,
+    @Json(name = "language") val language: String?
 ) : Parcelable

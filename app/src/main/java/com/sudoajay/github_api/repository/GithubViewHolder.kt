@@ -6,18 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
 import com.sudoajay.github_api.R
 import com.sudoajay.github_api.databinding.LayoutGithubItemBinding
 import com.sudoajay.github_api.model.Github
+import kotlin.math.ln
+import kotlin.math.pow
 
 
 class GithubViewHolder(    private val binding: LayoutGithubItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     var TAG = "GithubViewHolderTAG"
     fun bind(github: Github) {
-        Log.e(TAG, "bind: value ghere  - ${github.url}" )
+        Log.e(TAG, "bind: value ghere  - ${github.url}")
         binding.repoName.text = github.fullName
 
         // if the description is missing, hide the TextView
@@ -28,8 +28,9 @@ class GithubViewHolder(    private val binding: LayoutGithubItemBinding
         }
         binding.repoDescription.visibility = descriptionVisibility
 
-        binding.repoStars.text = github.stars.toString()
-        binding.repoForks.text = github.forks.toString()
+        binding.repoWatch.text = withSuffix(github.watcher)
+        binding.repoStars.text = withSuffix(github.stars)
+        binding.repoForks.text = withSuffix(github.forks)
 
         // if the language is missing, hide the label and the value
         var languageVisibility = View.GONE
@@ -42,9 +43,19 @@ class GithubViewHolder(    private val binding: LayoutGithubItemBinding
 
     }
 
+    private fun withSuffix(count: Long): String {
+        if (count < 1000) return "" + count
+        val exp = (ln(count.toDouble()) / ln(1000.0)).toInt()
+        return String.format(
+            "%.1f %c",
+            count / 1000.0.pow(exp.toDouble()),
+            "kMGTPE"[exp - 1]
+        )
+    }
+
     companion object {
         fun create(parent: ViewGroup): GithubViewHolder {
-            val view =  LayoutGithubItemBinding.inflate(
+            val view = LayoutGithubItemBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
             return GithubViewHolder(view)

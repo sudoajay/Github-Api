@@ -25,6 +25,7 @@ class MainViewModel @Inject constructor() : ViewModel() {
     init {
         loadHideProgress()
 
+
     }
 
     private fun loadHideProgress() {
@@ -34,7 +35,6 @@ class MainViewModel @Inject constructor() : ViewModel() {
     fun searchValue(value: String) {
         viewModelScope.launch {
             repository.getSearchResultStream(value).collectLatest {
-                Log.e(TAG, "searchValue: value here " )
                 listItem.postValue(it)
             }
         }

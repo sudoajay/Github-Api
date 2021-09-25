@@ -100,16 +100,20 @@ class MainActivity : BaseActivity() {
         binding.recyclerView.adapter = githubAdapter
         dataChange()
 
-        viewModel.searchValue("SudoAjay")
+        viewModel.searchValue("Rock")
+
+        viewModel.hideProgress.observe(this){
+            Log.e(TAG, "setRecyclerView: valuer change hide progress - ${it} ")
+        }
     }
 
     private fun dataChange() {
         Log.e(TAG, "dataChange:  I am here " )
         lifecycleScope.launch {
             viewModel.listItem.asFlow().collectLatest {
-                Log.e(TAG, "dataChange:  I am here wuth data  ${it.toString()} " )
+                setValueHideProgress(it != null )
+
                 githubAdapter.submitData(it)
-                viewModel.hideProgress.postValue(true)
             }
         }
     }
